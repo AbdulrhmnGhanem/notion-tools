@@ -8,6 +8,7 @@ authors = [
 dependencies = [
     "black>=21.12b0",
     "keyring>=23.4.0",
+    "notion-client>=0.8.0",
 ]
 requires-python = ">=3.9"
 license = {text = "MIT"}
