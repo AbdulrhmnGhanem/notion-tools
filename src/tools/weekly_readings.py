@@ -1,25 +1,12 @@
 from typing import Final, List
 import random
 
-import keyring
 import notion_client
 
-
-def read_auth():
-    """Read the notion access token and the Reading list notion DB from keyring."""
-    access_token: Final = keyring.get_password("notion", "weekly-articles-selector")
-    reading_list_id: Final = keyring.get_password("notion", "reading-list")
-
-    if access_token == None:
-        raise ValueError("Access token not found!")
-
-    if reading_list_id == None:
-        raise ValueError('"Reading List" database id not found!')
-
-    return access_token, reading_list_id
+from ..auth_store import AuthManager
 
 
-def get_articles_numbers(articles) -> List[int]:
+def get_articles_numbers(articles: List[dict]) -> List[int]:
     """Extract the `No` fields form the records"""
     return [article["properties"]["No"]["number"] for article in articles]
 
@@ -41,7 +28,7 @@ def get_not_read_articles(
     all_articles = []
 
     has_more = True
-    next_cursor = None
+    next_cursor: str = None
 
     while has_more:
         response = notion.databases.query(
@@ -56,7 +43,10 @@ def get_not_read_articles(
 
 
 def select_articles_of_week(select: int):
-    access_token, reading_list_id = read_auth()
+    notion_auth_manager = AuthManager().notion
+    access_token = notion_auth_manager.weekly_articles_selector_integration
+    reading_list_id = notion_auth_manager.reading_list
+
     notion = notion_client.Client(auth=access_token)
 
     not_read_articles = get_not_read_articles(notion, reading_list_id)

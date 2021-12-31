@@ -177,7 +177,7 @@ extras = ["idna2008"]
 summary = "Validating URI References per RFC 3986"
 dependencies = [
     "idna",
-    "rfc3986<2,>=1.3",
+    "rfc3986==1.5.0",
 ]
 
 [[package]]
@@ -203,6 +203,12 @@ requires_python = ">=3.6"
 summary = "A lil' TOML parser"
 
 [[package]]
+name = "typeguard"
+version = "2.13.3"
+requires_python = ">=3.5.3"
+summary = "Run-time type checker for Python"
+
+[[package]]
 name = "typing-extensions"
 version = "4.0.1"
 requires_python = ">=3.6"
@@ -216,7 +222,7 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 
 [metadata]
 lock_version = "3.1"
-content_hash = "sha256:72348503603c91f970b3674c37f0e2ecf3592da43c46ff1af2a31bd6d3bc8737"
+content_hash = "sha256:8339e4414923901138dc1993a81439d6b2fab33686c9cacf7869d70f979835f0"
 
 [metadata.files]
 "anyio 3.4.0" = [
@@ -384,6 +390,10 @@ content_hash = "sha256:72348503603c91f970b3674c37f0e2ecf3592da43c46ff1af2a31bd6d
 "tomli 1.2.3" = [
     {file = "tomli-1.2.3-py3-none-any.whl", hash = "sha256:e3069e4be3ead9668e21cb9b074cd948f7b3113fd9c8bba083f48247aab8b11c"},
     {file = "tomli-1.2.3.tar.gz", hash = "sha256:05b6166bff487dc068d322585c7ea4ef78deed501cc124060e0f238e89a9231f"},
+]
+"typeguard 2.13.3" = [
+    {file = "typeguard-2.13.3-py3-none-any.whl", hash = "sha256:5e3e3be01e887e7eafae5af63d1f36c849aaa94e3a0112097312aabfa16284f1"},
+    {file = "typeguard-2.13.3.tar.gz", hash = "sha256:00edaa8da3a133674796cf5ea87d9f4b4c367d77476e185e80251cc13dfbb8c4"},
 ]
 "typing-extensions 4.0.1" = [
     {file = "typing_extensions-4.0.1-py3-none-any.whl", hash = "sha256:7f001e5ac290a0c0401508864c7ec868be4e701886d5b573a9528ed3973d9d3b"},
