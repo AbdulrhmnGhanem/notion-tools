@@ -166,6 +166,18 @@ version = "0.2.0"
 summary = "UNKNOWN"
 
 [[package]]
+name = "requests"
+version = "2.26.0"
+requires_python = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
+summary = "Python HTTP for Humans."
+dependencies = [
+    "certifi>=2017.4.17",
+    "charset-normalizer~=2.0.0; python_version >= \"3\"",
+    "idna<4,>=2.5; python_version >= \"3\"",
+    "urllib3<1.27,>=1.21.1",
+]
+
+[[package]]
 name = "rfc3986"
 version = "1.5.0"
 summary = "Validating URI References per RFC 3986"
@@ -197,6 +209,15 @@ requires_python = ">=3.5"
 summary = "Sniff out which async library your code is running under"
 
 [[package]]
+name = "todoist-api-python"
+version = "1.1.0"
+requires_python = ">=3.8,<4.0"
+summary = "Official Python SDK for the Todoist REST API."
+dependencies = [
+    "requests<3.0.0,>=2.26.0",
+]
+
+[[package]]
 name = "tomli"
 version = "1.2.3"
 requires_python = ">=3.6"
@@ -215,6 +236,12 @@ requires_python = ">=3.6"
 summary = "Backported and Experimental Type Hints for Python 3.6+"
 
 [[package]]
+name = "urllib3"
+version = "1.26.7"
+requires_python = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4"
+summary = "HTTP library with thread-safe connection pooling, file post, and more."
+
+[[package]]
 name = "zipp"
 version = "3.6.0"
 requires_python = ">=3.6"
@@ -222,7 +249,7 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 
 [metadata]
 lock_version = "3.1"
-content_hash = "sha256:8339e4414923901138dc1993a81439d6b2fab33686c9cacf7869d70f979835f0"
+content_hash = "sha256:4e244bc1e4dc480fc494c6dc95b04b71afb9b83a5353fca7ac2f528260edcc1f"
 
 [metadata.files]
 "anyio 3.4.0" = [
@@ -375,6 +402,10 @@ content_hash = "sha256:8339e4414923901138dc1993a81439d6b2fab33686c9cacf7869d70f9
     {file = "pywin32_ctypes-0.2.0-py2.py3-none-any.whl", hash = "sha256:9dc2d991b3479cc2df15930958b674a48a227d5361d413827a4cfd0b5876fc98"},
     {file = "pywin32-ctypes-0.2.0.tar.gz", hash = "sha256:24ffc3b341d457d48e8922352130cf2644024a4ff09762a2261fd34c36ee5942"},
 ]
+"requests 2.26.0" = [
+    {file = "requests-2.26.0-py2.py3-none-any.whl", hash = "sha256:6c1246513ecd5ecd4528a0906f910e8f0f9c6b8ec72030dc9fd154dc1a6efd24"},
+    {file = "requests-2.26.0.tar.gz", hash = "sha256:b8aa58f8cf793ffd8782d3d8cb19e66ef36f7aba4353eec859e74678b01b07a7"},
+]
 "rfc3986 1.5.0" = [
     {file = "rfc3986-1.5.0-py2.py3-none-any.whl", hash = "sha256:a86d6e1f5b1dc238b218b012df0aa79409667bb209e58da56d0b94704e712a97"},
     {file = "rfc3986-1.5.0.tar.gz", hash = "sha256:270aaf10d87d0d4e095063c65bf3ddbc6ee3d0b226328ce21e036f946e421835"},
@@ -387,6 +418,10 @@ content_hash = "sha256:8339e4414923901138dc1993a81439d6b2fab33686c9cacf7869d70f9
     {file = "sniffio-1.2.0-py3-none-any.whl", hash = "sha256:471b71698eac1c2112a40ce2752bb2f4a4814c22a54a3eed3676bc0f5ca9f663"},
     {file = "sniffio-1.2.0.tar.gz", hash = "sha256:c4666eecec1d3f50960c6bdf61ab7bc350648da6c126e3cf6898d8cd4ddcd3de"},
 ]
+"todoist-api-python 1.1.0" = [
+    {file = "todoist_api_python-1.1.0-py3-none-any.whl", hash = "sha256:6403a0511736345b094abef4eeab7f7be4a6a28c564a472ef99f594c036765b9"},
+    {file = "todoist_api_python-1.1.0.tar.gz", hash = "sha256:cee8c8993e889635a9ad5947e40d0f5969f4fefc3787fd7be6f32e42561a2244"},
+]
 "tomli 1.2.3" = [
     {file = "tomli-1.2.3-py3-none-any.whl", hash = "sha256:e3069e4be3ead9668e21cb9b074cd948f7b3113fd9c8bba083f48247aab8b11c"},
     {file = "tomli-1.2.3.tar.gz", hash = "sha256:05b6166bff487dc068d322585c7ea4ef78deed501cc124060e0f238e89a9231f"},
@@ -398,6 +433,10 @@ content_hash = "sha256:8339e4414923901138dc1993a81439d6b2fab33686c9cacf7869d70f9
 "typing-extensions 4.0.1" = [
     {file = "typing_extensions-4.0.1-py3-none-any.whl", hash = "sha256:7f001e5ac290a0c0401508864c7ec868be4e701886d5b573a9528ed3973d9d3b"},
     {file = "typing_extensions-4.0.1.tar.gz", hash = "sha256:4ca091dea149f945ec56afb48dae714f21e8692ef22a395223bcd328961b6a0e"},
+]
+"urllib3 1.26.7" = [
+    {file = "urllib3-1.26.7-py2.py3-none-any.whl", hash = "sha256:c4fdf4019605b6e5423637e01bc9fe4daef873709a7973e195ceba0a62bbc844"},
+    {file = "urllib3-1.26.7.tar.gz", hash = "sha256:4987c65554f7a2dbf30c18fd48778ef124af6fab771a377103da0585e2336ece"},
 ]
 "zipp 3.6.0" = [
     {file = "zipp-3.6.0-py3-none-any.whl", hash = "sha256:9fe5ea21568a0a70e50f273397638d39b03353731e6cbbb3fd8502a33fec40bc"},

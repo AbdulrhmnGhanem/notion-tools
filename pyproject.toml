@@ -10,6 +10,7 @@ dependencies = [
     "keyring>=23.4.0",
     "notion-client>=0.8.0",
     "typeguard>=2.13.3",
+    "todoist-api-python>=1.1.0",
 ]
 requires-python = ">=3.9"
 license = {text = "MIT"}

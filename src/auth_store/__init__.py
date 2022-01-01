@@ -3,7 +3,7 @@ from typing import Literal
 import keyring
 from typeguard import check_literal
 
-Services = Literal["notion"]
+Services = Literal["notion", "todoist"]
 
 
 class _Record:
