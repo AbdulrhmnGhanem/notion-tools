@@ -24,10 +24,15 @@ def select_articles(article_names: List[str], select: int) -> List[str]:
 def get_not_read_articles(
     notion: notion_client.Client, reading_list_id: str
 ) -> List[dict]:
-    """Fetch all the unread articles from the `Reading List` DBs."""
+    """Fetch all the unread articles from the `Reading List` DB."""
     query: Final = {
         "database_id": reading_list_id,
-        "filter": {"property": "Done", "checkbox": {"equals": False}},
+        "filter": {
+            "and": [
+                {"property": "Done", "checkbox": {"equals": False}},
+                {"property": "Name", "title": {"is_not_empty": True}},
+            ]
+        },
         "page_size": 100,
     }
 
