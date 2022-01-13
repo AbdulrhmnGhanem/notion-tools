@@ -6,7 +6,7 @@ from typeguard import check_literal
 Services = Literal["notion", "todoist"]
 
 
-class _Record:
+class _KeyringService:
     """Keyring service record (username)"""
 
     def __init__(self, service: Services):
@@ -30,4 +30,4 @@ class AuthManager:
 
     def __getattr__(self, service: Services):
         check_literal("service", service, Services, None)
-        return _Record(service)
+        return _KeyringService(service)
