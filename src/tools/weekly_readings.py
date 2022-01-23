@@ -1,10 +1,12 @@
-from typing import Final, List
 import random
+from typing import Final, List
+from black import click
 
 import notion_client
 from todoist_api_python.api import TodoistAPI
 
-from ..auth_store import AuthManager
+from auth_store import AuthManager
+import click_validators
 
 
 def get_articles_names(articles: List[dict]) -> List[str]:
@@ -87,14 +89,23 @@ def add_articles_to_todoist(selected_articles: List[str]):
         return False
 
 
-if __name__ == "__main__":
-    import sys
+@click.command()
+@click.option(
+    "--count",
+    default=7,
+    show_default=True,
+    callback=click_validators.positive_num,
+    help="Number of articles to select",
+)
+@click.option(
+    "--add-to-todoist",
+    default=False,
+    show_default=True,
+    type=bool,
+    help="Add articles to Todoist",
+)
+def cli(count, add_to_todoist):
+    selected_articles = select_articles_of_week(count)
 
-    try:
-        select = int(sys.argv[1])
-    except IndexError:
-        select = 7
-
-    selected_articles = select_articles_of_week(select)
-    add_articles_to_todoist(selected_articles)
-    print(selected_articles)
+    if add_to_todoist:
+        add_articles_to_todoist(selected_articles)
