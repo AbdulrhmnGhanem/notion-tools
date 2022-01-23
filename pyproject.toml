@@ -11,8 +11,9 @@ dependencies = [
     "notion-client>=0.8.0",
     "typeguard>=2.13.3",
     "todoist-api-python>=1.1.0",
+    "click>=8.0.3",
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = {text = "MIT"}
 
 [project.urls]
