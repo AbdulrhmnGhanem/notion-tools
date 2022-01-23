@@ -1,7 +1,8 @@
 import random
 from typing import Final, List
-from black import click
+from collections import namedtuple
 
+import click
 import notion_client
 from todoist_api_python.api import TodoistAPI
 
@@ -9,18 +10,27 @@ from auth_store import AuthManager
 import click_validators
 
 
-def get_articles_names(articles: List[dict]) -> List[str]:
+"""
+! note: the `notion_url` is the url to the notion page of the article not the article itself.
+"""
+NotionArticle = namedtuple("NotionArticle", "title, notion_url")
+
+
+def get_articles_info(articles: List[dict]) -> List[NotionArticle]:
     """Extract the `Name` property form the records
 
     The `Name` property is a [rich-text block](https://developers.notion.com/reference/rich-text).
     """
     return [
-        article["properties"]["Name"]["title"][0]["plain_text"] for article in articles
+        NotionArticle(
+            article["properties"]["Name"]["title"][0]["plain_text"], article["url"]
+        )
+        for article in articles
     ]
 
 
-def select_articles(article_names: List[str], select: int) -> List[str]:
-    return random.choices(article_names, k=select)
+def select_articles(articles: List[NotionArticle], select: int):
+    return random.choices(articles, k=select)
 
 
 def get_not_read_articles(
@@ -41,7 +51,7 @@ def get_not_read_articles(
     all_articles = []
 
     has_more = True
-    next_cursor: str = None
+    next_cursor: str = ""
 
     while has_more:
         response = notion.databases.query(
@@ -63,11 +73,11 @@ def select_articles_of_week(select: int):
     notion = notion_client.Client(auth=access_token)
 
     not_read_articles = get_not_read_articles(notion, reading_list_id)
-    not_read_articles_numbers = get_articles_names(not_read_articles)
-    return select_articles(not_read_articles_numbers, select)
+    not_read_articles_info = get_articles_info(not_read_articles)
+    return select_articles(not_read_articles_info, select)
 
 
-def add_articles_to_todoist(selected_articles: List[str]):
+def add_articles_to_todoist(selected_articles: List[NotionArticle], due: int):
     todoist_auth_manager = AuthManager().todoist
     todoist_api = TodoistAPI(todoist_auth_manager.api_token)
 
@@ -77,8 +87,8 @@ def add_articles_to_todoist(selected_articles: List[str]):
         for article in selected_articles:
             # FIXME handle failure, though I don't know what to do if it fails
             todoist_api.add_task(
-                content=article,
-                due_string="7 days from now",
+                content=article.title,
+                due_string=f"{due} days from now",
                 project_id=reading_list_project_id,
             )
 
@@ -87,6 +97,13 @@ def add_articles_to_todoist(selected_articles: List[str]):
         print(e)
 
         return False
+
+
+def make_checklist(selected_articles: List[NotionArticle]):
+    return "\n".join(
+        f"- [ ] [{article.title}]({article.notion_url})"
+        for article in selected_articles
+    )
 
 
 @click.command()
@@ -99,13 +116,26 @@ def add_articles_to_todoist(selected_articles: List[str]):
 )
 @click.option(
     "--add-to-todoist",
-    default=False,
+    "-t",
+    is_flag=True,
     show_default=True,
-    type=bool,
     help="Add articles to Todoist",
 )
-def cli(count, add_to_todoist):
+@click.option("--due", default=7, show_default=True, help="Due after how many days.")
+@click.option(
+    "--checklist",
+    "-c",
+    default=True,
+    is_flag=True,
+    show_default=True,
+    help="Print formatted checklist which is pastbale into notion with backlinks.",
+)
+def cli(count, add_to_todoist, due, checklist):
     selected_articles = select_articles_of_week(count)
 
     if add_to_todoist:
-        add_articles_to_todoist(selected_articles)
+        add_articles_to_todoist(selected_articles, due)
+
+    if checklist:
+        selected_articles_checklist = make_checklist(selected_articles)
+        click.echo(selected_articles_checklist)
