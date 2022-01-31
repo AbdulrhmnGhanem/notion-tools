@@ -21,7 +21,7 @@ class _KeyringService:
         return password
 
 
-class AuthManager:
+class AuthStore:
     """Manages accessing tokens from keyring
 
     >>> manager = AuthManager()
