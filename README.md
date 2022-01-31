@@ -1,6 +1,6 @@
 # notion-tools
 
-My personal tools for automation Notion workflows.
+My personal tools for automating Notion workflows.
 
 # setup
 
