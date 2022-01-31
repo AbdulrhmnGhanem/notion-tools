@@ -32,6 +32,4 @@ Usage: capture [OPTIONS]
 
 Options:
   --help  Show this message and exit.
-
-
 ```
