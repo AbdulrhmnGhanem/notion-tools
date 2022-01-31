@@ -24,4 +24,14 @@ Options:
  -c, --checklist       Print formatted checklist which is pastbale into
                        notion with backlinks.  [default: True]
  --help                Show this message and exit
+
+$ capture --help
+Usage: capture [OPTIONS]
+
+  Capture a todo/idea quickly into notion
+
+Options:
+  --help  Show this message and exit.
+
+
 ```

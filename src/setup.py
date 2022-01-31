@@ -11,10 +11,13 @@ setup(
         "notion-client",
         "typeguard",
         "todoist-api-python",
+        "rich",
+        "prompt-toolkit",
     ],
     entry_points={
         "console_scripts": [
             "weekly_readings = tools.weekly_readings:cli",
+            "capture = tools.quick_capture:cli",
         ],
     },
 )
