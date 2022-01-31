@@ -5,4 +5,4 @@
 Fixed
 -----
 
-- remove newline in readme
+- Remove extra newlines in readme
