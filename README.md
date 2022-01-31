@@ -25,6 +25,13 @@ Options:
                        notion with backlinks.  [default: True]
  --help                Show this message and exit
 
+```
+
+> 💡 The first step in growing an idea is not to forget it when it comes to you.
+>
+> — Bob Colwell, Pentium Chronicles.
+
+```console
 $ capture --help
 Usage: capture [OPTIONS]
 
