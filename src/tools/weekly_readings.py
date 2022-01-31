@@ -8,7 +8,6 @@ import click_validators
 import notion_client
 from auth_store import AuthStore
 from todoist_api_python.api import TodoistAPI
-
 """
 ! note: the `notion_url` is the url to the notion page of the article not the article itself.
 """
@@ -21,10 +20,8 @@ def get_articles_info(articles: List[dict]) -> List[NotionArticle]:
     The `Name` property is a [rich-text block](https://developers.notion.com/reference/rich-text).
     """
     return [
-        NotionArticle(
-            article["properties"]["Name"]["title"][0]["plain_text"], article["url"]
-        )
-        for article in articles
+        NotionArticle(article["properties"]["Name"]["title"][0]["plain_text"],
+                      article["url"]) for article in articles
     ]
 
 
@@ -32,16 +29,25 @@ def select_articles(articles: List[NotionArticle], select: int):
     return random.choices(articles, k=select)
 
 
-def get_not_read_articles(
-    notion: notion_client.Client, reading_list_id: str
-) -> List[dict]:
+def get_not_read_articles(notion: notion_client.Client,
+                          reading_list_id: str) -> List[dict]:
     """Fetch all the unread articles from the `Reading List` DB."""
     query: Final = {
         "database_id": reading_list_id,
         "filter": {
             "and": [
-                {"property": "Done", "checkbox": {"equals": False}},
-                {"property": "Name", "title": {"is_not_empty": True}},
+                {
+                    "property": "Done",
+                    "checkbox": {
+                        "equals": False
+                    }
+                },
+                {
+                    "property": "Name",
+                    "title": {
+                        "is_not_empty": True
+                    }
+                },
             ]
         },
         "page_size": 100,
@@ -54,8 +60,7 @@ def get_not_read_articles(
 
     while has_more:
         response = notion.databases.query(
-            **query, **{"start_cursor": next_cursor} if next_cursor else {}
-        )
+            **query, **{"start_cursor": next_cursor} if next_cursor else {})
 
         all_articles += response["results"]
         has_more = response["has_more"]
@@ -99,10 +104,8 @@ def add_articles_to_todoist(selected_articles: List[NotionArticle], due: int):
 
 
 def make_checklist(selected_articles: List[NotionArticle]):
-    return "\n".join(
-        f"- [ ] [{article.title}]({article.notion_url})"
-        for article in selected_articles
-    )
+    return "\n".join(f"- [ ] [{article.title}]({article.notion_url})"
+                     for article in selected_articles)
 
 
 @click.command()
@@ -120,14 +123,18 @@ def make_checklist(selected_articles: List[NotionArticle]):
     show_default=True,
     help="Add articles to Todoist",
 )
-@click.option("--due", default=7, show_default=True, help="Due after how many days.")
+@click.option("--due",
+              default=7,
+              show_default=True,
+              help="Due after how many days.")
 @click.option(
     "--checklist",
     "-c",
     default=True,
     is_flag=True,
     show_default=True,
-    help="Print formatted checklist which is pastbale into notion with backlinks.",
+    help=
+    "Print formatted checklist which is pastbale into notion with backlinks.",
 )
 def cli(count, add_to_todoist, due, checklist):
     selected_articles = select_articles_of_week(count)

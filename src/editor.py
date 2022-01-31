@@ -22,7 +22,8 @@ class CapturedText:
     text: typing.Optional[str] = None
 
 
-def _make_buffer_with_autocompletion(completion_words: typing.List[str]) -> Buffer:
+def _make_buffer_with_autocompletion(
+        completion_words: typing.List[str]) -> Buffer:
     completer = WordCompleter(completion_words, ignore_case=True)
     return Buffer(completer=completer, complete_while_typing=True)
 
@@ -31,18 +32,15 @@ def setup_editor(completion_words: typing.List[str]):
     buffer = _make_buffer_with_autocompletion(completion_words)
 
     body = FloatContainer(
-        content=HSplit(
-            [
-                Window(
-                    FormattedTextControl(
-                        'Press "Ctrl+s" to submit or "Ctrl+q" to quit.'
-                    ),
-                    height=1,
-                    style="reverse",
-                ),
-                Window(BufferControl(buffer=buffer)),
-            ]
-        ),
+        content=HSplit([
+            Window(
+                FormattedTextControl(
+                    'Press "Ctrl+s" to submit or "Ctrl+q" to quit.'),
+                height=1,
+                style="reverse",
+            ),
+            Window(BufferControl(buffer=buffer)),
+        ]),
         floats=[
             Float(
                 xcursor=True,
