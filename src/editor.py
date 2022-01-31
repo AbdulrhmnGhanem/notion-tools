@@ -1,15 +1,16 @@
-from dataclasses import dataclass
 import typing
+from dataclasses import dataclass
 
-from prompt_toolkit.layout.menus import CompletionsMenu
-from prompt_toolkit.layout.layout import Layout
-from prompt_toolkit.layout.controls import BufferControl, FormattedTextControl
-from prompt_toolkit.layout.containers import Float, FloatContainer, HSplit, Window
-from prompt_toolkit.keys import Keys
-from prompt_toolkit.key_binding import KeyBindings
-from prompt_toolkit.completion import WordCompleter
-from prompt_toolkit.buffer import Buffer
 from prompt_toolkit.application import Application
+from prompt_toolkit.buffer import Buffer
+from prompt_toolkit.completion import WordCompleter
+from prompt_toolkit.key_binding import KeyBindings
+from prompt_toolkit.keys import Keys
+from prompt_toolkit.layout.containers import (Float, FloatContainer, HSplit,
+                                              Window)
+from prompt_toolkit.layout.controls import BufferControl, FormattedTextControl
+from prompt_toolkit.layout.layout import Layout
+from prompt_toolkit.layout.menus import CompletionsMenu
 
 
 @dataclass

@@ -1,14 +1,13 @@
 import random
-from typing import Final, List
 from collections import namedtuple
+from typing import Final, List
 
 import click
 import notion_client
 from todoist_api_python.api import TodoistAPI
 
-from auth_store import AuthStore
 import click_validators
-
+from auth_store import AuthStore
 
 """
 ! note: the `notion_url` is the url to the notion page of the article not the article itself.
