@@ -6,7 +6,7 @@ import click
 import notion_client
 from todoist_api_python.api import TodoistAPI
 
-from auth_store import AuthManager
+from auth_store import AuthStore
 import click_validators
 
 
@@ -66,7 +66,7 @@ def get_not_read_articles(
 
 
 def select_articles_of_week(select: int):
-    notion_auth_manager = AuthManager().notion
+    notion_auth_manager = AuthStore().notion
     access_token = notion_auth_manager.weekly_articles_selector_integration
     reading_list_id = notion_auth_manager.reading_list
 
@@ -78,7 +78,7 @@ def select_articles_of_week(select: int):
 
 
 def add_articles_to_todoist(selected_articles: List[NotionArticle], due: int):
-    todoist_auth_manager = AuthManager().todoist
+    todoist_auth_manager = AuthStore().todoist
     todoist_api = TodoistAPI(todoist_auth_manager.api_token)
 
     reading_list_project_id = todoist_auth_manager.reading_list_id
