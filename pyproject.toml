@@ -12,6 +12,8 @@ dependencies = [
     "typeguard>=2.13.3",
     "todoist-api-python>=1.1.0",
     "click>=8.0.3",
+    "rich>=11.1.0",
+    "prompt-toolkit>=3.0.26",
 ]
 requires-python = ">=3.10"
 license = {text = "MIT"}
