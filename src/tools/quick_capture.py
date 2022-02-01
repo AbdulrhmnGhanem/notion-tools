@@ -12,7 +12,7 @@ from auth_store import AuthStore
 
 
 COMPLETION_WORDS: typing.Final = ["Todo: ", "Idea: ", "Backlog: "]
-console = Console(log_time=False, log_path=False)
+console = Console(log_path=False)
 
 
 def make_checkbox_block(checkbox_text: str):
@@ -35,16 +35,20 @@ def make_checkbox_block(checkbox_text: str):
     }
 
 
-def append_block(block: dict) -> typing.Tuple[typing.Optional[dict], bool]:
+def append_block(
+    block: dict,
+) -> typing.Tuple[
+    typing.Optional[dict], typing.Optional[notion_client.APIResponseError]
+]:
     notion_auth_manager = AuthStore().notion
     access_token = notion_auth_manager.weekly_articles_selector_integration
     capture_page_id = notion_auth_manager.capture_page
     notion = notion_client.Client(auth=access_token)
 
     try:
-        return notion.blocks.children.append(capture_page_id, **block), False
-    except notion_client.APIResponseError:
-        return None, True
+        return notion.blocks.children.append(capture_page_id, **block), None
+    except notion_client.APIResponseError as e:
+        return None, e
 
 
 def save(text: str) -> None:
@@ -55,10 +59,10 @@ def save(text: str) -> None:
     block = make_checkbox_block(text)
     _, err = append_block(block)
 
-    if err:
-        console.log("[red]Capture failed :x:")
-    else:
+    if err is None:
         console.log("[green]Captured successfully :heavy_check_mark:")
+    else:
+        console.log("[red]Capture failed :x:")
 
 
 @click.command()
