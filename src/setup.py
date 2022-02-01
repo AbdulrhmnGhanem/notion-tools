@@ -4,7 +4,7 @@ setup(
     name="notion-tools",
     version="0.1.0",
     packages=find_packages(),
-    py_modules=["tools"],
+    include_package_data=True,
     install_requires=[
         "Click",
         "keyring",

@@ -4,12 +4,10 @@ My personal tools for automating Notion workflows.
 
 # setup
 
-1. Install [pdm](https://pdm.fming.dev/).
-2. Clone the repo.
+1. Clone the repo.
+2. `cd notion-tools`.
 3. Configure [keyring](https://pypi.org/.project/keyring/).
-4. `cd notion-tools`.
-5. `pdm install`.
-6. Install the script `pip install --editable src`
+4. Install the script `/bin/python -m pip install --editable src`
 
 # Run the tools
 
