@@ -86,8 +86,8 @@ def write_quotes_pdf(
         subprocess.check_call(
             [
                 "pandoc",
-                "-H",
-                head_file_path,
+                # "-H",
+                # head_file_path,
                 "-f",
                 "markdown",
                 fp.name,
@@ -95,6 +95,10 @@ def write_quotes_pdf(
                 file_path,
             ]
         )
+
+
+def write_quotes_twitter(title: str, authors: list[str], quotes_plain_text: list[str]):
+    raise NotImplementedError
 
 
 @click.command()
@@ -113,7 +117,7 @@ def cli(page_id, export_format, export_dest):
     quotes_plain_text = get_quotes_plain_text(info.blocks)
 
     if export_format == TwitterThread:
-        print("t")
+        write_quotes_twitter(info.title, info.authors, quotes_plain_text)
     elif export_format == PDF:
         write_quotes_pdf(info.title, info.authors, quotes_plain_text, export_dest)
     elif export_format == Markdown:
