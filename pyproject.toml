@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "notion-tools"
+description = "My personal tools for automating Notion workflows."
+authors = [{name = "Abdulrhmn Ghanem", email = "abdoghanem160@gmail.com"}]
+version = "0.1.1"
+dependencies = [
+    "Click",
+    "keyring",
+    "notion-client",
+    "typeguard",
+    "todoist-api-python",
+    "rich",
+    "prompt-toolkit",
+]
+
+[project.scripts]
+weekly_readings = "tools.weekly_readings:cli"
+capture = "tools.quick_capture:cli"
+collect-quotes = "tools.collect_quotes:cli"
