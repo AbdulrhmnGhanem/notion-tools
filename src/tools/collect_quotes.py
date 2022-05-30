@@ -1,3 +1,4 @@
+from collections import namedtuple
 from typing import Final
 
 import click
@@ -9,16 +10,39 @@ from auth_store import AuthStore
 Quote: Final = "quote"
 Text: Final = "text"
 PlainText: Final = "plain_text"
+MultiSelect: Final = "multi_select"
+Name: Final = "name"
+PageName: Final = "Name"
+Title: Final = "title"
 
 TwitterThread: Final = "twitter"
 PDF: Final = "pdf"
 Markdown = "md"
 
 
-def get_page_blocks(page_id: str) -> list[dict]:
+Page = namedtuple("Page", "title, authors, blocks")
+
+
+def get_page_info(page_id: str):
     access_token = AuthStore().notion.weekly_articles_selector_integration
     notion = notion_client.Client(auth=access_token)
-    return notion.blocks.children.list(page_id)["results"]
+
+    blocks = notion.blocks.children.list(page_id)["results"]
+    page_properties = notion.pages.retrieve(page_id)["properties"]
+
+    return Page(
+        title=get_page_title(page_properties),
+        authors=get_page_authors(page_properties),
+        blocks=blocks,
+    )
+
+
+def get_page_authors(page_properties: dict) -> list[str]:
+    return [author[Name] for author in page_properties["Authors"][MultiSelect]]
+
+
+def get_page_title(page_properties: dict) -> str:
+    return page_properties[PageName][Title][0][PlainText]
 
 
 def get_quotes_plain_text(page_blocks: list[dict]) -> list[str]:
@@ -28,8 +52,13 @@ def get_quotes_plain_text(page_blocks: list[dict]) -> list[str]:
     ]
 
 
-def write_quotes_md(quotes_plain_text: list[str], file_path: str):
+def write_quotes_md(
+    title: str, authors: list[str], quotes_plain_text: list[str], file_path: str
+):
     with open(file_path, mode="w", encoding="utf-8") as fp:
+        fp.write(f"# {title}\n")
+        fp.write(f'_{", ".join(authors)}_\n')
+
         for quote in quotes_plain_text:
             for quote_line in quote.split("\n"):
                 fp.write(f"\n> {quote_line}")
@@ -48,14 +77,14 @@ def write_quotes_md(quotes_plain_text: list[str], file_path: str):
 )
 def cli(page_id, export_format, export_dest):
     "Collect quotes from a notion page and export it in the desired format."
-    blocks = get_page_blocks(page_id)
-    quotes_plain_text = get_quotes_plain_text(blocks)
+    info = get_page_info(page_id)
+    quotes_plain_text = get_quotes_plain_text(info.blocks)
 
     if export_format == TwitterThread:
         print("t")
     elif export_format == PDF:
         print("p")
     elif export_format == Markdown:
-        write_quotes_md(quotes_plain_text, export_dest)
+        write_quotes_md(info.title, info.authors, quotes_plain_text, export_dest)
     else:
         raise ValueError("Unsupported export formant!")
