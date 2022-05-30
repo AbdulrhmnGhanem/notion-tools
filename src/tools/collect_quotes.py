@@ -1,4 +1,7 @@
+from pathlib import Path
+import subprocess
 from collections import namedtuple
+import tempfile
 from typing import Final
 
 import click
@@ -53,7 +56,11 @@ def get_quotes_plain_text(page_blocks: list[dict]) -> list[str]:
 
 
 def write_quotes_md(
-    title: str, authors: list[str], quotes_plain_text: list[str], file_path: str
+    title: str,
+    authors: list[str],
+    quotes_plain_text: list[str],
+    file_path: str,
+    is_temp=False,
 ):
     with open(file_path, mode="w", encoding="utf-8") as fp:
         fp.write(f"# {title}\n")
@@ -63,6 +70,31 @@ def write_quotes_md(
             for quote_line in quote.split("\n"):
                 fp.write(f"\n> {quote_line}")
             fp.write("\n")
+        if is_temp:
+            fp.flush()
+
+
+def write_quotes_pdf(
+    title: str, authors: list[str], quotes_plain_text: list[str], file_path: str
+):
+    head_file_path = str(
+        Path(__file__).parents[2].joinpath("assets").joinpath("head.tex")
+    )
+
+    with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8") as fp:
+        write_quotes_md(title, authors, quotes_plain_text, fp.name, True)
+        subprocess.check_call(
+            [
+                "pandoc",
+                "-H",
+                head_file_path,
+                "-f",
+                "markdown",
+                fp.name,
+                "-o",
+                file_path,
+            ]
+        )
 
 
 @click.command()
@@ -83,7 +115,7 @@ def cli(page_id, export_format, export_dest):
     if export_format == TwitterThread:
         print("t")
     elif export_format == PDF:
-        print("p")
+        write_quotes_pdf(info.title, info.authors, quotes_plain_text, export_dest)
     elif export_format == Markdown:
         write_quotes_md(info.title, info.authors, quotes_plain_text, export_dest)
     else:
