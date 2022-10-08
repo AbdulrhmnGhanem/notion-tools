@@ -11,7 +11,7 @@ commonmark==0.9.1
 cryptography==36.0.1
 h11==0.12.0
 httpcore==0.14.5
-httpx==0.22.0
+httpx==0.23.0
 idna==3.3
 importlib-metadata==4.10.1
 jeepney==0.7.1
