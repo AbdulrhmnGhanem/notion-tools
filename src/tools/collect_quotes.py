@@ -1,14 +1,12 @@
-from pathlib import Path
 import subprocess
-from collections import namedtuple
 import tempfile
+from collections import namedtuple
+from pathlib import Path
 from typing import Final
 
 import click
 import notion_client
-
 from auth_store import AuthStore
-
 
 Quote: Final = "quote"
 Text: Final = "text"
@@ -21,7 +19,6 @@ Title: Final = "title"
 TwitterThread: Final = "twitter"
 PDF: Final = "pdf"
 Markdown = "md"
-
 
 Page = namedtuple("Page", "title, authors, blocks")
 
@@ -49,9 +46,12 @@ def get_page_title(page_properties: dict) -> str:
 
 
 def get_quotes_plain_text(page_blocks: list[dict]) -> list[str]:
-    text_blocks = [block[Quote][Text] for block in page_blocks if Quote in block]
+    text_blocks = [
+        block[Quote][Text] for block in page_blocks if Quote in block
+    ]
     return [
-        "".join(sub_block[PlainText] for sub_block in block) for block in text_blocks
+        "".join(sub_block[PlainText] for sub_block in block)
+        for block in text_blocks
     ]
 
 
@@ -74,30 +74,27 @@ def write_quotes_md(
             fp.flush()
 
 
-def write_quotes_pdf(
-    title: str, authors: list[str], quotes_plain_text: list[str], file_path: str
-):
+def write_quotes_pdf(title: str, authors: list[str],
+                     quotes_plain_text: list[str], file_path: str):
     head_file_path = str(
-        Path(__file__).parents[2].joinpath("assets").joinpath("head.tex")
-    )
+        Path(__file__).parents[2].joinpath("assets").joinpath("head.tex"))
 
     with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8") as fp:
         write_quotes_md(title, authors, quotes_plain_text, fp.name, True)
-        subprocess.check_call(
-            [
-                "pandoc",
-                # "-H",
-                # head_file_path,
-                "-f",
-                "markdown",
-                fp.name,
-                "-o",
-                file_path,
-            ]
-        )
+        subprocess.check_call([
+            "pandoc",
+            # "-H",
+            # head_file_path,
+            "-f",
+            "markdown",
+            fp.name,
+            "-o",
+            file_path,
+        ])
 
 
-def write_quotes_twitter(title: str, authors: list[str], quotes_plain_text: list[str]):
+def write_quotes_twitter(title: str, authors: list[str],
+                         quotes_plain_text: list[str]):
     raise NotImplementedError
 
 
@@ -107,10 +104,11 @@ def write_quotes_twitter(title: str, authors: list[str], quotes_plain_text: list
     required=True,
     help="Notion page ID",
 )
-@click.option("--export-format", type=click.Choice([TwitterThread, PDF, Markdown]))
-@click.option(
-    "--export-dest", type=click.Path(dir_okay=False, writable=True), default=None
-)
+@click.option("--export-format",
+              type=click.Choice([TwitterThread, PDF, Markdown]))
+@click.option("--export-dest",
+              type=click.Path(dir_okay=False, writable=True),
+              default=None)
 def cli(page_id, export_format, export_dest):
     "Collect quotes from a notion page and export it in the desired format."
     info = get_page_info(page_id)
@@ -119,8 +117,10 @@ def cli(page_id, export_format, export_dest):
     if export_format == TwitterThread:
         write_quotes_twitter(info.title, info.authors, quotes_plain_text)
     elif export_format == PDF:
-        write_quotes_pdf(info.title, info.authors, quotes_plain_text, export_dest)
+        write_quotes_pdf(info.title, info.authors, quotes_plain_text,
+                         export_dest)
     elif export_format == Markdown:
-        write_quotes_md(info.title, info.authors, quotes_plain_text, export_dest)
+        write_quotes_md(info.title, info.authors, quotes_plain_text,
+                        export_dest)
     else:
         raise ValueError("Unsupported export formant!")
