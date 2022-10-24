@@ -1,14 +1,13 @@
-from pathlib import Path
 import subprocess
-from collections import namedtuple
 import tempfile
+from collections import namedtuple
+from pathlib import Path
 from typing import Final
 
 import click
 import notion_client
 
 from auth_store import AuthStore
-
 
 Quote: Final = "quote"
 Text: Final = "text"
