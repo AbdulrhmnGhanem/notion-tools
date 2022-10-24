@@ -6,7 +6,6 @@ from typing import Final
 
 import click
 import notion_client
-
 from auth_store import AuthStore
 
 Quote: Final = "quote"
