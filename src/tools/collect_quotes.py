@@ -49,7 +49,8 @@ def get_page_title(page_properties: dict) -> str:
 
 
 def get_quotes_plain_text(page_blocks: list[dict]) -> list[str]:
-    text_blocks = [block[Quote][Text] for block in page_blocks if Quote in block]
+    text_blocks = [block[Quote][Text]
+                   for block in page_blocks if Quote in block]
     return [
         "".join(sub_block[PlainText] for sub_block in block) for block in text_blocks
     ]
@@ -119,8 +120,10 @@ def cli(page_id, export_format, export_dest):
     if export_format == TwitterThread:
         write_quotes_twitter(info.title, info.authors, quotes_plain_text)
     elif export_format == PDF:
-        write_quotes_pdf(info.title, info.authors, quotes_plain_text, export_dest)
+        write_quotes_pdf(info.title, info.authors,
+                         quotes_plain_text, export_dest)
     elif export_format == Markdown:
-        write_quotes_md(info.title, info.authors, quotes_plain_text, export_dest)
+        write_quotes_md(info.title, info.authors,
+                        quotes_plain_text, export_dest)
     else:
         raise ValueError("Unsupported export formant!")
