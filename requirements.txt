@@ -26,7 +26,7 @@ platformdirs==2.4.1
 prompt-toolkit==3.0.26
 pycparser==2.21
 Pygments==2.11.2
-requests==2.27.1
+requests==2.31.0
 rfc3986==1.5.0
 rich==11.1.0
 scriv==0.13.0
