@@ -156,3 +156,4 @@ changelog.d/
 
 # python virtualenv
 .venv
+data/

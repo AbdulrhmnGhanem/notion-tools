@@ -1,0 +1,18 @@
+\usepackage{framed}
+\usepackage{quoting}
+
+\definecolor{bgcolor}{HTML}{abb8c3}
+\colorlet{shadecolor}{bgcolor}
+% define a new environment shadedquotation. You can change leftmargin and
+% rightmargin as you wish.
+\newenvironment{shadedquotation}
+ {\begin{shaded*}
+  \quoting[leftmargin=1em, rightmargin=1em, vskip=0pt, font=mono]
+ }
+ {\endquoting
+ \end{shaded*}
+ }
+
+%
+\def\quote{\shadedquotation}
+\def\endquote{\endshadedquotation}
