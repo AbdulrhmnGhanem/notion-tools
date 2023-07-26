@@ -5,10 +5,10 @@ from textwrap import dedent
 
 import click
 import notion_client
-from rich.console import Console
-
 from auth_store import AuthStore
-from editor import CapturedText, setup_editor
+from editor import CapturedText
+from editor import setup_editor
+from rich.console import Console
 
 COMPLETION_WORDS: typing.Final = ["Todo: ", "Idea: ", "Backlog: "]
 console = Console(log_path=False)
