@@ -1,15 +1,14 @@
 import io
-from textwrap import dedent
 import typing
 import uuid
+from textwrap import dedent
 
 import click
-from rich.console import Console
-from editor import CapturedText, setup_editor
 import notion_client
+from rich.console import Console
 
 from auth_store import AuthStore
-
+from editor import CapturedText, setup_editor
 
 COMPLETION_WORDS: typing.Final = ["Todo: ", "Idea: ", "Backlog: "]
 console = Console(log_path=False)
