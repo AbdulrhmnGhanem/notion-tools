@@ -16,33 +16,30 @@ console = Console(log_path=False)
 
 def make_checkbox_block(checkbox_text: str):
     return {
-        "children": [
-            {
-                "object": "block",
-                "id": str(uuid.uuid4()),
-                "type": "to_do",
-                "to_do": {
-                    "rich_text": [
-                        {
-                            "type": "text",
-                            "text": {
-                                "content": checkbox_text,
-                            },
-                        }
-                    ],
-                    "checked": False,
-                    "color": "default",
-                },
-            }
-        ]
+        "children": [{
+            "object": "block",
+            "id": str(uuid.uuid4()),
+            "type": "to_do",
+            "to_do": {
+                "rich_text": [{
+                    "type": "text",
+                    "text": {
+                        "content": checkbox_text,
+                    },
+                }],
+                "checked":
+                False,
+                "color":
+                "default",
+            },
+        }]
     }
 
 
 def append_block(
     block: dict,
-) -> typing.Tuple[
-    typing.Optional[dict], typing.Optional[notion_client.APIResponseError]
-]:
+) -> typing.Tuple[typing.Optional[dict],
+                  typing.Optional[notion_client.APIResponseError]]:
     notion_auth_manager = AuthStore().notion
     access_token = notion_auth_manager.weekly_articles_selector_integration
     capture_page_id = notion_auth_manager.capture_page
