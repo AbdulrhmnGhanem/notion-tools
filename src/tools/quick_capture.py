@@ -17,21 +17,25 @@ console = Console(log_path=False)
 
 def make_checkbox_block(checkbox_text: str):
     return {
-        "object": "block",
-        "id": uuid.uuid4(),
         "children": [
             {
+                "object": "block",
+                "id": str(uuid.uuid4()),
+                "type": "to_do",
                 "to_do": {
-                    "text": [
+                    "rich_text": [
                         {
                             "type": "text",
-                            "text": {"content": checkbox_text},
+                            "text": {
+                                "content": checkbox_text,
+                            },
                         }
                     ],
                     "checked": False,
-                }
+                    "color": "default",
+                },
             }
-        ],
+        ]
     }
 
 
